@@ -17,8 +17,7 @@ public class TrieNode {
     public void insert(String s, TrieNode root) {
         TrieNode traverse = root;
         for (int i = 0; i < s.length(); i++) {
-            int pos = s.charAt(i)-'A';
-            System.out.println(s.charAt(i));
+            int pos = s.charAt(i)-'a';
             if(traverse.children[pos] ==  null) {
                 traverse.children[pos] = new TrieNode();
             }
@@ -30,7 +29,7 @@ public class TrieNode {
     public boolean find(String s, TrieNode root) {
         TrieNode traverse = root;
         for (int i = 0; i < s.length(); i++) {
-            int pos = s.charAt(i)-'A';
+            int pos = s.charAt(i)-'a';
             if (traverse.children[pos] == null) {
                 return false;
             }
@@ -42,7 +41,7 @@ public class TrieNode {
     public boolean isPrefix(String s, TrieNode root) {
         TrieNode traverse = root;
         for (int i = 0; i < s.length(); i++) {
-            int pos = s.charAt(i)-'A';
+            int pos = s.charAt(i)-'a';
             if (traverse.children[pos] == null) {
                 return false;
             }

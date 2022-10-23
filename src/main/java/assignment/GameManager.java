@@ -13,6 +13,8 @@ public class GameManager implements BoggleGame{
     private int[] scores;
     private GameDictionary dict;
     private HashSet<String> allWords;
+    private boolean[][] visited;
+    private ArrayList<Point> wordCoords;
     @Override
     public void newGame(int size, int numPlayers, String cubeFile, BoggleDictionary dict) throws IOException {
         grid = new char[size][size];
@@ -57,7 +59,7 @@ public class GameManager implements BoggleGame{
                     HashSet<Integer> temp = new HashSet<>();
                     temp.add(player);
                     guessed.put(word, temp);
-                    scores[player] += word.length()-3;
+                    scores[player-1] += word.length()-3;
                     return 2;
                 }
             }
@@ -67,7 +69,7 @@ public class GameManager implements BoggleGame{
 
     @Override
     public List<Point> getLastAddedWord() {
-        return null;
+        return wordCoords;
     }
 
     @Override
@@ -77,7 +79,7 @@ public class GameManager implements BoggleGame{
 
     @Override
     public Collection<String> getAllWords() {
-        for ()
+        return null;
     }
 
     @Override
@@ -108,33 +110,29 @@ public class GameManager implements BoggleGame{
     }
 
     private boolean inGrid(String s) {
-        int i = 0;
-        int j = 0;
-        while (ff(s, 0, new Point(j, i))) {
-            i++;
-            if (i == grid.length-1) {
-                i = 0;
-                j++;
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                visited = new boolean[grid.length][grid[0].length];
+                wordCoords = new ArrayList<>();
+                if (ff(s, i, j, 0, wordCoords)) return true;
             }
         }
-        return !((4*j)+i == 16);
+        return false;
     }
 
-    private boolean ff(String s, int n, Point pos) {
-        if (pos.x < 0 || pos.x >= grid.length || pos.y < 0 || pos.y >= grid.length) {
-            return true;
+
+    private boolean ff(String s, int i, int j, int n, ArrayList<Point> a) {
+        if (n == s.length()) return true;
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || visited[i][j]) return false;
+        if (s.charAt(n) != grid[i][j] + 32) return false;
+        visited[i][j] = true;
+        a.add(new Point(i, j));
+        for (int di = -1; di <= 1; di++) {
+            for (int dj = -1; dj <= 1; dj++) {
+                if (ff(s, i + di, j + dj, n+1, a)) return true;
+            }
         }
-        if (s.charAt(n)== grid[pos.y][pos.x] && n == s.length()-1) return false;
-        if (s.charAt(n) == grid[pos.y][pos.x]) {
-            ff (s, n+1, new Point(pos.x+1, pos.y));
-            ff (s, n+1, new Point(pos.x-1, pos.y));
-            ff (s, n+1, new Point(pos.x+1, pos.y+1));
-            ff (s, n+1, new Point(pos.x+1, pos.y-1));
-            ff (s, n+1, new Point(pos.x, pos.y+1));
-            ff (s, n+1, new Point(pos.x, pos.y-1));
-            ff (s, n+1, new Point(pos.x-1, pos.y-1));
-            ff (s, n+1, new Point(pos.x-1, pos.y+1));
-        }
-        return true;
+        return false;
     }
 }
