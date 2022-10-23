@@ -42,17 +42,11 @@ public class Boggle {
                         scan.nextLine();
                         int result = game.addWord(guess, a+1);
                         if (result == 0) {
-                            System.out.println("You have already guessed that word, please try again.");
+                            System.out.println("Invalid, please try again.");
                         }
-                        else if (result == 3) {
-                            System.out.println("Your last guess is not a word, please try again.");
-                        }
-                        else if (result == 4) {
-                            System.out.println("Your last guess was not found in the grid, please try again.");
-                        }
-                        else if (result == 1 || result == 2) {
+                        else {
                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                            System.out.println("Good Guess!");
+                            System.out.println("Good Guess! You got " + result + " points!");
                             for (Point p : game.getLastAddedWord()) {
                                 modGrid[p.x][p.y] = Character.toLowerCase(modGrid[p.x][p.y]);
                             }

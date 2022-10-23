@@ -32,6 +32,9 @@ public class GameManager implements BoggleGame{
 
     @Override
     public int addWord(String word, int player) {
+        if (word.length() < 4) {
+            return 0;
+        }
         if (guessed.containsKey(word)) {
             if (guessed.get(word).contains(player)) {
                 return 0;
@@ -40,7 +43,7 @@ public class GameManager implements BoggleGame{
             temp.add(player);
             guessed.put(word, temp);
             scores[player] += word.length()-3;
-            return 1;
+            return word.length()-3;
         }
         if (searchType == SearchTactic.SEARCH_DICT) {
             if (dict.contains(word)) {
@@ -49,11 +52,9 @@ public class GameManager implements BoggleGame{
                     temp.add(player);
                     guessed.put(word, temp);
                     scores[player] += word.length()-3;
-                    return 2;
+                    return word.length()-3;
                 }
-                return 4;
             }
-            return 3;
         }
         else if (searchType == SearchTactic.SEARCH_BOARD) {
             if (inGrid(word)) {
@@ -62,13 +63,11 @@ public class GameManager implements BoggleGame{
                     temp.add(player);
                     guessed.put(word, temp);
                     scores[player-1] += word.length()-3;
-                    return 2;
+                    return word.length()-3;
                 }
-                return 3;
             }
-            return 4;
         }
-        return -1;
+        return 0;
     }
 
     @Override
