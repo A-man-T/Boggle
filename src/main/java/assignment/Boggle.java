@@ -43,7 +43,14 @@ public class Boggle {
                         int result = game.addWord(guess, a+1);
                         if (result == 0) {
                             System.out.println("You have already guessed that word, please try again.");
-                        } else if (result == 1 || result == 2) {
+                        }
+                        else if (result == 3) {
+                            System.out.println("Your last guess is not a word, please try again.");
+                        }
+                        else if (result == 4) {
+                            System.out.println("Your last guess was not found in the grid, please try again.");
+                        }
+                        else if (result == 1 || result == 2) {
                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                             System.out.println("Good Guess!");
                             for (Point p : game.getLastAddedWord()) {

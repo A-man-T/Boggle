@@ -51,7 +51,9 @@ public class GameManager implements BoggleGame{
                     scores[player] += word.length()-3;
                     return 2;
                 }
+                return 4;
             }
+            return 3;
         }
         else if (searchType == SearchTactic.SEARCH_BOARD) {
             if (inGrid(word)) {
@@ -62,7 +64,9 @@ public class GameManager implements BoggleGame{
                     scores[player-1] += word.length()-3;
                     return 2;
                 }
+                return 3;
             }
+            return 4;
         }
         return -1;
     }
