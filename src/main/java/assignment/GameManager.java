@@ -17,6 +17,14 @@ public class GameManager implements BoggleGame{
     private ArrayList<Point> wordCoords;
     @Override
     public void newGame(int size, int numPlayers, String cubeFile, BoggleDictionary dict) throws IOException {
+        if (size <= 0) {
+            System.out.println("Invalid input dimension");
+            return;
+        }
+        if (numPlayers <= 0) {
+            System.out.println("Invalid number of players.");
+            return;
+        }
         grid = new char[size][size];
         this.dict = (GameDictionary) dict;
         searchType = BoggleGame.SEARCH_DEFAULT;
@@ -32,6 +40,10 @@ public class GameManager implements BoggleGame{
 
     @Override
     public int addWord(String word, int player) {
+        if (player < 0 || player >= scores.length) {
+            System.out.println("Invalid player number");
+            return 0;
+        }
         if (word.length() < 4) {
             return 0;
         }
@@ -62,7 +74,7 @@ public class GameManager implements BoggleGame{
                     HashSet<Integer> temp = new HashSet<>();
                     temp.add(player);
                     guessed.put(word, temp);
-                    scores[player-1] += word.length()-3;
+                    scores[player] += word.length()-3;
                     return word.length()-3;
                 }
             }
@@ -82,7 +94,25 @@ public class GameManager implements BoggleGame{
 
     @Override
     public Collection<String> getAllWords() {
-        return null;
+        allWords = new HashSet<>();
+        if (searchType == SearchTactic.SEARCH_BOARD) {
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+                    String s = "";
+                    visited = new boolean[grid.length][grid[0].length];
+                    ff2(s, i, j);
+                }
+            }
+        }
+        else if (searchType == SearchTactic.SEARCH_DICT) {
+            for (String s : dict) {
+                if (inGrid(s)) {
+                    System.out.println("yuh");
+                    allWords.add(s);
+                }
+            }
+        }
+        return allWords;
     }
 
     @Override
@@ -99,10 +129,20 @@ public class GameManager implements BoggleGame{
         ArrayList<Character> randChars = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(cubeFile));
         String temp = br.readLine();
+        if (temp.length() != 6) {
+            System.out.println("Invalid dictionary / cubes are not 6 sides");
+            return;
+        }
+        int count = 0;
         while (temp != null) {
             int randIdx = (int)(Math.random()*temp.length());
             randChars.add(temp.charAt(randIdx));
             temp = br.readLine();
+            count++;
+        }
+        if (count != grid.length*grid.length) {
+            System.out.println("Invalid number of cubes");
+            return;
         }
         Collections.shuffle(randChars);
         for (int i = 0; i < grid.length; i++) {
@@ -137,5 +177,18 @@ public class GameManager implements BoggleGame{
             }
         }
         return false;
+    }
+
+    private void ff2(String s, int i, int j) {
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || visited[i][j]) return;
+        s += Character.toLowerCase(grid[i][j]);
+        if (!dict.isPrefix(s)) return;
+        if (dict.contains(s) && s.length() >= 4) allWords.add(s);
+        visited[i][j] = true;
+        for (int di = -1; di <= 1; di++) {
+            for (int dj = -1; dj <= 1; dj++) {
+                ff2(s, i + di, j + dj);
+            }
+        }
     }
 }

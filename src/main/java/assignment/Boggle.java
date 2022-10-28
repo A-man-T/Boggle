@@ -2,12 +2,15 @@ package assignment;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Boggle {
     static BoggleDictionary dict = new GameDictionary();
     static BoggleGame game = new GameManager();
+    static HashSet<String> guessed = new HashSet<>();
     public static void main(String[] args) throws IOException {
         dict.loadDictionary("words.txt");
 
@@ -45,6 +48,7 @@ public class Boggle {
                             System.out.println("Invalid, please try again.");
                         }
                         else {
+                            guessed.add(guess);
                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                             System.out.println("Good Guess! You got " + result + " points!");
                             for (Point p : game.getLastAddedWord()) {
@@ -68,6 +72,12 @@ public class Boggle {
             System.out.println("Final Scores: ");
             for (int i = 0; i < game.getScores().length; i++) {
                 System.out.println("Player " + (i+1) + ": " + game.getScores()[i]);
+            }
+            System.out.println();
+            System.out.println("Unguessed Words:");
+            game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_DICT);
+            for (String m : game.getAllWords()) {
+                if (!guessed.contains(m)) System.out.print(m + ", ");
             }
         }
     }
