@@ -11,6 +11,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class Test {
 
     @org.junit.jupiter.api.Test
+    void invalidDictionary() throws IOException{
+        BoggleDictionary dict = new GameDictionary();
+        dict.loadDictionary("1.txt");
+        BufferedReader br = new BufferedReader(new FileReader("1.txt"));
+        String temp = br.readLine();
+        while (temp != null) {
+            if (!dict.contains(temp)) System.out.println(temp);
+            assertTrue(dict.contains(temp));
+            temp = br.readLine();
+        }
+    }
+
+
+    @org.junit.jupiter.api.Test
     void loadDictionary() throws IOException {
         BoggleDictionary dict = new GameDictionary();
         dict.loadDictionary("dicttest.txt");
