@@ -8,12 +8,14 @@ public class TrieNode {
     public boolean end;
     public char val;
 
+    // TrieNode constructor, creates TrieNode
     public TrieNode() {
         end = false;
         children = new TrieNode[26];
         Arrays.fill(children, null);
     }
 
+    // adds a word into the trie
     public void insert(String s, TrieNode root) {
         s = s.toLowerCase();
         TrieNode traverse = root;
@@ -27,6 +29,7 @@ public class TrieNode {
         traverse.end = true;
     }
 
+    // finds word in a trie
     public boolean find(String s, TrieNode root) {
         s = s.toLowerCase();
         TrieNode traverse = root;
@@ -40,6 +43,7 @@ public class TrieNode {
         return traverse.end;
     }
 
+    // checks if a substring is a prefix of another word in the trie
     public boolean isPrefix(String s, TrieNode root) {
         if (s.length() == 0) {
             return true;

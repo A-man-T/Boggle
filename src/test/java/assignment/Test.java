@@ -101,15 +101,49 @@ class Test {
         dict.loadDictionary("words.txt");
         game.newGame(4, 1, "cubes.txt", dict);
         game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_BOARD);
-        HashSet<String> a = new HashSet<>();
-        a = (HashSet<String>) game.getAllWords();
+        HashSet<String> a = (HashSet<String>) game.getAllWords();
         game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_DICT);
-        HashSet<String> b = new HashSet<>();
-        b = (HashSet<String>) game.getAllWords();
+        HashSet<String> b = (HashSet<String>) game.getAllWords();
         for (String s : a) {
             assertTrue(b.contains(s));
+            b.remove(s);
         }
+        assertEquals(0, b.size());
     }
 
+    @org.junit.jupiter.api.Test
+    void testSetGrid() throws IOException {
+        BoggleDictionary dict = new GameDictionary();
+        BoggleGame game = new GameManager();
+        dict.loadDictionary("words.txt");
+        game.newGame(4, 1, "cubes.txt", dict);
+        game.setGame(new char[][]{{'E', 'N', 'H', 'R'}, {'E', 'N', 'H', 'R'}, {'T', 'A', 'N', 'R'}, {'T','I','T','I'}});
+        game.addWord("titi", 0);
+        assertEquals(game.getScores()[0], 1);
+    }
+
+    @org.junit.jupiter.api.Test
+    void TestGetAllWords2() throws IOException {
+        BoggleDictionary dict = new GameDictionary();
+        BoggleGame game = new GameManager();
+        dict.loadDictionary("words.txt");
+        game.newGame(4, 1, "cubes.txt", dict);
+        game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_BOARD);
+        game.setGame(new char[][]{{'E', 'N', 'H', 'R'}, {'E', 'N', 'H', 'R'}, {'T', 'A', 'N', 'R'}, {'T','I','T','I'}});
+        HashSet<String> words = new HashSet<>();
+        for (String s : game.getAllWords()) {
+            if (s.length() >= 4){
+                words.add(s);
+            }
+        }
+        game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_DICT);
+        HashSet<String> words2 = new HashSet<>();
+        for (String s : game.getAllWords()) {
+            if (s.length() >= 4){
+                words2.add(s);
+            }
+        }
+        assertEquals(words.size(), words2.size());
+    }
 
 }
