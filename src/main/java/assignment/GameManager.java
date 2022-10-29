@@ -45,6 +45,12 @@ public class GameManager implements BoggleGame{
             System.out.println("Invalid player number");
             return 0;
         }
+        for (char c : word.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                System.err.println("Please ensure your word is made up of letters");
+                return 0;
+            }
+        }
         if (word.length() < 4) { // word too short
             return 0;
         }
