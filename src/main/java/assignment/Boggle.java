@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Boggle {
@@ -100,7 +101,7 @@ public class Boggle {
 
             System.out.println("Would you like to play again (y/n) ?"); // prompts user to play another game
             String b = scan.nextLine();
-            if (b == "n") {
+            if (Objects.equals(b, "n")) {
                 break; // exit condition, everything stops
             }
         }
