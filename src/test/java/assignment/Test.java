@@ -94,5 +94,22 @@ class Test {
         }
     }
 
+    @org.junit.jupiter.api.Test
+    void searchTacticTest() throws IOException {
+        BoggleDictionary dict = new GameDictionary();
+        BoggleGame game = new GameManager();
+        dict.loadDictionary("words.txt");
+        game.newGame(4, 1, "cubes.txt", dict);
+        game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_BOARD);
+        HashSet<String> a = new HashSet<>();
+        a = (HashSet<String>) game.getAllWords();
+        game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_DICT);
+        HashSet<String> b = new HashSet<>();
+        b = (HashSet<String>) game.getAllWords();
+        for (String s : a) {
+            assertTrue(b.contains(s));
+        }
+    }
+
 
 }
