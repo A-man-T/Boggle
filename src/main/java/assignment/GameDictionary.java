@@ -33,11 +33,23 @@ public class GameDictionary implements BoggleDictionary{
 
     @Override
     public boolean isPrefix(String prefix) {
+        for (char c : prefix.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                System.err.println("Invalid word in the dictionary, must be alphabetical");
+                return false;
+            }
+        }
         return root.isPrefix(prefix, root);
     }
 
     @Override
     public boolean contains(String word) {
+        for (char c : word.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                System.err.println("Invalid word in the dictionary, must be alphabetical");
+                return false;
+            }
+        }
         return root.find(word, root);
     }
 
