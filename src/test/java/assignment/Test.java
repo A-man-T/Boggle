@@ -137,7 +137,7 @@ class Test {
     }
 
     @org.junit.jupiter.api.Test
-    void TestGetAllWords2() throws IOException {
+    void TestGetAllWords() throws IOException {
         BoggleDictionary dict = new GameDictionary();
         BoggleGame game = new GameManager();
         dict.loadDictionary("words.txt");
