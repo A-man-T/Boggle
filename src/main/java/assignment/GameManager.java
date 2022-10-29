@@ -48,36 +48,21 @@ public class GameManager implements BoggleGame{
             return 0;
         }
         if (guessed.containsKey(word)) {
-            if (guessed.get(word).contains(player)) {
+            if (guessed.get(word.toLowerCase()).contains(player)) {
                 return 0;
             }
-            HashSet<Integer> temp = guessed.get(word);
+            HashSet<Integer> temp = guessed.get(word.toLowerCase());
             temp.add(player);
-            guessed.put(word, temp);
+            guessed.put(word.toLowerCase(), temp);
             scores[player] += word.length()-3;
             return word.length()-3;
         }
-        if (searchType == SearchTactic.SEARCH_DICT) {
-            if (dict.contains(word)) {
-                if (inGrid(word)) {
-                    HashSet<Integer> temp = new HashSet<>();
-                    temp.add(player);
-                    guessed.put(word, temp);
-                    scores[player] += word.length()-3;
-                    return word.length()-3;
-                }
-            }
-        }
-        else if (searchType == SearchTactic.SEARCH_BOARD) {
-            if (inGrid(word)) {
-                if (dict.contains(word)) {
-                    HashSet<Integer> temp = new HashSet<>();
-                    temp.add(player);
-                    guessed.put(word, temp);
-                    scores[player] += word.length()-3;
-                    return word.length()-3;
-                }
-            }
+        if (dict.contains(word) && inGrid(word)) {
+            HashSet<Integer> temp = new HashSet<>();
+            temp.add(player);
+            guessed.put(word.toLowerCase(), temp);
+            scores[player] += word.length()-3;
+            return word.length()-3;
         }
         return 0;
     }
@@ -107,7 +92,6 @@ public class GameManager implements BoggleGame{
         else if (searchType == SearchTactic.SEARCH_DICT) {
             for (String s : dict) {
                 if (inGrid(s)) {
-                    System.out.println("yuh");
                     allWords.add(s);
                 }
             }

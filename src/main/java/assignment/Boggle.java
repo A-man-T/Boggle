@@ -43,7 +43,7 @@ public class Boggle {
                         System.out.println("Please enter your guess: ");
                         String guess = scan.next();
                         scan.nextLine();
-                        int result = game.addWord(guess, a+1);
+                        int result = game.addWord(guess, a);
                         if (result == 0) {
                             System.out.println("Invalid, please try again.");
                         }
@@ -77,7 +77,7 @@ public class Boggle {
             System.out.println("Unguessed Words:");
             game.setSearchTactic(BoggleGame.SearchTactic.SEARCH_DICT);
             for (String m : game.getAllWords()) {
-                if (!guessed.contains(m)) System.out.print(m + ", ");
+                if (!guessed.contains(m) && m.length() >= 4) System.out.print(m + ", ");
             }
         }
     }
