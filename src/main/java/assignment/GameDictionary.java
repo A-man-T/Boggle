@@ -16,6 +16,12 @@ public class GameDictionary implements BoggleDictionary{
         BufferedReader br = new BufferedReader(new FileReader(filename));
         String temp = br.readLine();
         while(temp != null) {
+            for (char c : temp.toCharArray()) {
+                if (!Character.isLetter(c)) {
+                    System.err.println("Invalid word in the dictionary, must be alphabetical");
+                    return;
+                }
+            }
             root.insert(temp, root); // loads every word from the dictionary file into the trie.
             numwords++;
             temp = br.readLine();
