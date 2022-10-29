@@ -10,9 +10,9 @@ public class GameManager implements BoggleGame{
     private char[][] grid;
     private SearchTactic searchType;
     private HashMap<String, HashSet<Integer>> guessed = new HashMap<>();
-    private int[] scores;
+    private int[] scores = new int[0];
     private GameDictionary dict;
-    private HashSet<String> allWords;
+    private HashSet<String> allWords = new HashSet<>();
     private boolean[][] visited;
     private ArrayList<Point> wordCoords;
     @Override
@@ -79,6 +79,10 @@ public class GameManager implements BoggleGame{
 
     @Override
     public Collection<String> getAllWords() {
+        if (dict == null) {
+            System.err.println("Dictionary not initialized.");
+            return allWords;
+        }
         allWords = new HashSet<>();
         if (searchType == SearchTactic.SEARCH_BOARD) {
             for (int i = 0; i < grid.length; i++) {
@@ -106,6 +110,9 @@ public class GameManager implements BoggleGame{
 
     @Override
     public int[] getScores() {
+        if (scores.length == 0) {
+            System.err.println("Invalid number of players, scores has not been instantiated");
+        }
         return scores;
     }
 
